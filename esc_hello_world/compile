@@ -1,0 +1,2 @@
+c++ -DESC_SERVER -Ofast  -fopenmp $1 -I../ ../libesc/liblibesc.a ../libesc/libdeps.a -lrt -o `basename $1 .cpp`
+

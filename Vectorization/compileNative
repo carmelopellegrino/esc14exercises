@@ -1,0 +1,2 @@
+c++ -std=c++1y -Ofast -Wall -ftree-loop-if-convert-stores -fopt-info-vec -march=native -Iinclude -fopenmp $1  -o `basename $1 .cpp`
+

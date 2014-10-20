@@ -1,0 +1,2 @@
+c++ -std=c++11 -Ofast -DESC_SERVER -Wall $1 -I../ ../libesc/liblibesc.a ../libesc/libdeps.a -lrt -pthread  -o `basename $1 .cpp`
+

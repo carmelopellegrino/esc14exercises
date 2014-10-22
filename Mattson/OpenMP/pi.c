@@ -49,7 +49,7 @@ int main ()
       int range_start = ID * chunk;
       int range_stop = range_start + chunk;
       //printf("Thread %d\t\t min = %d, max = %d\n", ID, range_start, range_stop);
-      range_stop = range_stop > num_steps ? num_steps : range_stop;
+      range_stop = range_stop < num_steps ? range_stop : num_steps;
 
       for (int i = range_start; i < range_stop; ++i) {
 

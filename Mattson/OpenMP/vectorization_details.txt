@@ -1,0 +1,1 @@
+c++ -Wall -std=c++1y -Ofast -fopenmp -fopt-info-vec pi.c -o pi

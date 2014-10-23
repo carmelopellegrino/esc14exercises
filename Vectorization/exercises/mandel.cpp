@@ -20,12 +20,12 @@
 #include "NativeVector.h"
 
 
-#include<iostream>
+#include <iostream>
 
 
-using FLOAT =  float;
+//using FLOAT =  float;
 
-// using FLOAT = NativeVector<float>;
+ using FLOAT = NativeVector<float>;
 // constexpr int vsize = sizeof(FLOAT)/sizeof(float);
 
 
@@ -49,9 +49,9 @@ int numoutside = 0;
 float driver(int seed){
 
 
-  //  constexpr FLOAT eps  =  nativeVector::zero<NativeVector<float>>() + 1.0e-5f;
+    constexpr FLOAT eps  =  nativeVector::zero<NativeVector<float>>() + 1.0e-5f;
   
-  constexpr FLOAT eps = 1.0e-5f;
+  //constexpr FLOAT eps = 1.0e-5f;
   
   //   Loop over grid of points in the complex plane which contains the Mandelbrot set,
   //   testing each point to see whether it is inside or outside the set.
@@ -97,8 +97,18 @@ void testpoint(d_complex c){
     temp = (z.r*z.r)-(z.i*z.i)+c.r;
     z.i = z.r*z.i*2+c.i;
     z.r = temp;
-    if ((z.r*z.r+z.i*z.i)>4.0f) {  
-      numoutside++;
+    FLOAT bvect = (z.r*z.r+z.i*z.i) > (FLOAT {0} + 4.0f);
+    int n = 0;
+    for (auto i=1U, e = nativeVector::length(bvect); i < e; ++i)
+    {
+      n += bvect[i];
+    }
+    
+    std::cout << "n: " << n << ", mask: " << mask(bvect) << std::endl;
+    
+    if (n < 0)
+    {
+      numoutside -= n;
       break;
     }
   }

@@ -17,17 +17,18 @@
 #include <math.h>
 #include <omp.h>
 
-# define NPOINTS 1000
-# define MAXITER 1000
+#define NPOINTS 1000
+#define MAXITER 1000
 
-void testpoint(void);
+
 
 struct d_complex{
    double r;
    double i;
 };
 
-struct d_complex c;
+void testpoint(const d_complex&);
+
 int numoutside = 0;
 
 int main(){
@@ -37,16 +38,17 @@ int main(){
 
 //   Loop over grid of points in the complex plane which contains the Mandelbrot set,
 //   testing each point to see whether it is inside or outside the set.
-
-#pragma omp parallel for default(shared) private(c,eps)
+  #pragma omp parallel for default(shared) private(i,j,eps)
    for (i=0; i<NPOINTS; i++) {
      for (j=0; j<NPOINTS; j++) {
-       c.r = -2.0+2.5*(double)(i)/(double)(NPOINTS)+eps;
-       c.i = 1.125*(double)(j)/(double)(NPOINTS)+eps;
-       testpoint();
+       {
+         d_complex c;
+         c.r = -2.0+2.5*(double)(i)/(double)(NPOINTS)+eps;
+         c.i = 1.125*(double)(j)/(double)(NPOINTS)+eps;
+         testpoint(c);
+     }
      }
    }
-
 // Calculate area of set and error estimate and output the results
    
 area=2.0*2.5*1.125*(double)(NPOINTS*NPOINTS-numoutside)/(double)(NPOINTS*NPOINTS);
@@ -57,7 +59,7 @@ area=2.0*2.5*1.125*(double)(NPOINTS*NPOINTS-numoutside)/(double)(NPOINTS*NPOINTS
 
 }
 
-void testpoint(void){
+void testpoint(const d_complex& c){
 
 // Does the iteration z=z*z+c, until |z| > 2 when point is known to be outside set
 // If loop count reaches MAXITER, point is considered to be inside the set
